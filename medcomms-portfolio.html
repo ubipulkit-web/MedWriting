@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Writing Portfolio - Dr Pulkit Mandal</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+:root{
+  --navy:#1B2A3B;--navy-mid:#253548;--blue:#2C5F8A;--blue-pale:#EBF2F8;
+  --body:#FFFFFF;--panel:#F7F8FA;--border:#E2E8EE;--text:#2D3748;--text-mid:#4A5568;
+  --text-soft:#718096;--text-faint:#A0AEC0;--green:#2D6A4F;--green-pale:#EAF4EF;
+  --amber:#92400E;--amber-pale:#FEF3C7;
+  --font-ui:'Inter',system-ui,sans-serif;--font-body:'Lora',Georgia,serif;
+  --sidebar-w:240px;--max-prose:680px
+}
+body{font-family:var(--font-body);font-size:1rem;line-height:1.78;color:var(--text);background:var(--body);-webkit-font-smoothing:antialiased}
+.layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+.site-header{grid-column:1/-1;background:var(--navy);padding:2.25rem 2.5rem;display:flex;align-items:flex-end;justify-content:space-between;gap:2rem;flex-wrap:wrap}
+.header-name{font-family:var(--font-ui);font-size:1.375rem;font-weight:600;color:#FFF;letter-spacing:-.01em;line-height:1.2;margin-bottom:.35rem}
+.header-creds{font-family:var(--font-ui);font-size:.8125rem;font-weight:300;color:#8BA3BE}
+.header-meta{text-align:right}
+.header-meta-label{font-family:var(--font-ui);font-size:.6875rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#5C7A9A;margin-bottom:.3rem}
+.header-meta-value{font-family:var(--font-ui);font-size:.875rem;color:#C5D5E8}
+.sidebar{background:var(--panel);border-right:1px solid var(--border);padding:1.75rem 0;position:sticky;top:0;height:100vh;overflow-y:auto;display:flex;flex-direction:column}
+.sb-sec{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-faint);padding:0 1.25rem .6rem;margin-top:1.5rem}
+.sb-sec:first-child{margin-top:0}
+.nav-item{display:block;width:100%;background:none;border:none;cursor:pointer;text-align:left;padding:.55rem 1.25rem .55rem 1.375rem;transition:background .15s;border-left:2px solid transparent}
+.nav-item:hover{background:var(--border)}
+.nav-item.active{background:var(--blue-pale);border-left-color:var(--blue)}
+.ni-num{font-family:var(--font-ui);font-size:.625rem;font-weight:600;color:var(--text-faint);display:block;letter-spacing:.06em}
+.nav-item.active .ni-num{color:var(--blue)}
+.ni-title{font-family:var(--font-ui);font-size:.8125rem;color:var(--text-mid);line-height:1.35;display:block}
+.nav-item.active .ni-title{color:var(--blue);font-weight:500}
+.ni-tag{font-family:var(--font-ui);font-size:.5625rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint);display:block;margin-top:.1rem}
+.sb-footer{margin-top:auto;padding:1.25rem;border-top:1px solid var(--border)}
+.sb-footer a{display:block;font-family:var(--font-ui);font-size:.75rem;color:var(--text-soft);text-decoration:none;margin-bottom:.35rem;transition:color .15s}
+.sb-footer a:hover{color:var(--blue)}
+.content{overflow-y:auto;height:100vh;padding:3rem 3.5rem}
+.panel{display:none}
+.panel.active{display:block;animation:fi .25s ease}
+@keyframes fi{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+.doc-eyebrow{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;flex-wrap:wrap}
+.doc-tag{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:3px}
+.t-congress{background:var(--navy);color:#FFF}
+.t-affairs{background:var(--blue);color:#FFF}
+.t-digital{background:#4A5568;color:#FFF}
+.t-pitch{background:#B7791F;color:#FFF}
+.t-mgmt{background:#C53030;color:#FFF}
+.doc-format{font-family:var(--font-ui);font-size:.8125rem;color:var(--text-soft)}
+.doc-title{font-family:var(--font-body);font-size:clamp(1.375rem,2.5vw,1.875rem);font-weight:500;line-height:1.25;color:var(--navy);margin-bottom:.75rem;max-width:var(--max-prose)}
+.doc-deck{font-family:var(--font-body);font-size:1rem;font-style:italic;color:var(--text-mid);max-width:var(--max-prose);line-height:1.65;margin-bottom:1.5rem;padding-left:1rem;border-left:2px solid var(--blue)}
+.doc-meta{display:flex;gap:2rem;margin-bottom:1.75rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.mi{display:flex;flex-direction:column;gap:2px}
+.mi-label{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint)}
+.mi-value{font-family:var(--font-ui);font-size:.8125rem;color:var(--text)}
+.prose{max-width:var(--max-prose);color:var(--text-mid)}
+.prose p{margin-bottom:1.1em}
+.prose p:last-child{margin-bottom:0}
+.prose h3{font-family:var(--font-ui);font-size:.6875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-top:2rem;margin-bottom:.6rem}
+.prose strong{font-weight:600;color:var(--text)}
+.prose em{font-style:italic}
+.prose ul,.prose ol{margin:.5em 0 1em 1.25em}
+.prose li{margin-bottom:.4em;line-height:1.65}
+.abs-wrap{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.5rem;max-width:var(--max-prose);margin-bottom:1.5rem}
+.abs-sec{margin-bottom:1rem}
+.abs-sec:last-child{margin-bottom:0}
+.abs-label{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.3rem}
+.abs-text{font-family:var(--font-body);font-size:.9375rem;color:var(--text-mid);line-height:1.7}
+.slide{background:var(--navy);border-radius:5px;padding:1.75rem 2rem;max-width:var(--max-prose);margin-bottom:1rem;position:relative}
+.slide-num{position:absolute;top:.75rem;right:1rem;font-family:var(--font-ui);font-size:.625rem;color:#4A6480;letter-spacing:.08em}
+.slide h4{font-family:var(--font-body);font-size:1.125rem;font-weight:500;color:#FFF;margin-bottom:1rem;line-height:1.3}
+.slide ul{margin-left:1rem}
+.slide li{font-family:var(--font-ui);font-size:.875rem;color:#94B8D4;margin-bottom:.6rem;line-height:1.55}
+.slide li strong{color:#C5D9ED;font-weight:500}
+.poster{border:1px solid var(--border);border-radius:4px;overflow:hidden;max-width:var(--max-prose);margin-bottom:1.5rem}
+.poster-row{padding:1rem 1.25rem;border-bottom:1px solid var(--border)}
+.poster-row:last-child{border-bottom:none}
+.poster-row-lbl{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#FFF;background:var(--navy-mid);padding:2px 7px;border-radius:2px;display:inline-block;margin-bottom:.5rem}
+.poster-row p{font-family:var(--font-body);font-size:.9375rem;color:var(--text-mid);line-height:1.65}
+.ba-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;max-width:var(--max-prose);margin:1.25rem 0}
+.ba-block{padding:1.1rem 1.25rem;border-radius:4px}
+.ba-block.before{background:#FFF8F0;border-left:3px solid #D4916A}
+.ba-block.after{background:var(--green-pale);border-left:3px solid var(--green)}
+.ba-lbl{font-family:var(--font-ui);font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.5rem;display:block}
+.ba-block.before .ba-lbl{color:#9A5530}
+.ba-block.after .ba-lbl{color:var(--green)}
+.ba-block p{font-family:var(--font-body);font-size:.9rem;line-height:1.68;color:var(--text-mid)}
+.qc-table{width:100%;max-width:var(--max-prose);border-collapse:collapse;margin:1.25rem 0;font-family:var(--font-ui)}
+.qc-table th{font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-soft);text-align:left;padding:.6rem .75rem;border-bottom:1.5px solid var(--navy);background:var(--panel)}
+.qc-table td{font-size:.8125rem;color:var(--text-mid);padding:.65rem .75rem;border-bottom:1px solid var(--border);vertical-align:top;line-height:1.5}
+.flag{color:#C53030;font-weight:600}
+.pass{color:var(--green);font-weight:600}
+.app-screen{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:1.5rem;max-width:420px;margin-bottom:1rem}
+.app-lbl{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-faint);margin-bottom:.75rem}
+.app-screen h4{font-family:var(--font-ui);font-size:1rem;font-weight:600;color:var(--navy);margin-bottom:.6rem;line-height:1.3}
+.app-screen p,.app-screen li{font-family:var(--font-ui);font-size:.875rem;color:var(--text-mid);line-height:1.6}
+.app-screen ul{margin:.5rem 0 0 1.1rem}
+.app-btn{display:inline-block;margin-top:.75rem;padding:.45rem 1rem;background:var(--blue);color:#FFF;font-family:var(--font-ui);font-size:.8125rem;font-weight:500;border-radius:4px}
+.app-field{background:#FFF;border:1px solid var(--border);border-radius:4px;padding:.65rem .875rem;margin-bottom:.75rem}
+.app-fl{font-family:var(--font-ui);font-size:.75rem;font-weight:600;color:var(--text);display:block;margin-bottom:.2rem}
+.app-fh{font-family:var(--font-ui);font-size:.7rem;color:var(--text-soft);line-height:1.4}
+.app-fs{font-family:var(--font-ui);font-size:.8rem;color:var(--text-soft);font-style:italic}
+.app-result{background:var(--amber-pale);border:1px solid #D97706;border-radius:6px;padding:1rem 1.25rem;max-width:420px;margin-bottom:1rem;font-family:var(--font-ui);font-size:.875rem;color:var(--amber);line-height:1.6}
+.letter{background:var(--panel);border:1px solid var(--border);border-radius:4px;padding:1.75rem 2rem;max-width:var(--max-prose);margin-bottom:1.5rem}
+.letter-hd{border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1.25rem}
+.lf{font-family:var(--font-ui);font-size:.8125rem;color:var(--text-mid);margin-bottom:.25rem}
+.lf strong{font-weight:600;color:var(--text);display:inline-block;width:3.5rem}
+.letter-body{font-family:var(--font-body);font-size:.9688rem;color:var(--text-mid)}
+.letter-body p{margin-bottom:1em;line-height:1.72}
+.letter-body h4{font-family:var(--font-ui);font-size:.6875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-top:1.5rem;margin-bottom:.5rem}
+.rationale{background:var(--blue-pale);border-left:3px solid var(--blue);border-radius:0 4px 4px 0;padding:1rem 1.25rem;max-width:var(--max-prose);margin-top:2rem}
+.rationale-lbl{font-family:var(--font-ui);font-size:.625rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--blue);margin-bottom:.4rem}
+.rationale p{font-family:var(--font-ui);font-size:.8438rem;color:var(--text-mid);line-height:1.6}
+.footnote{font-family:var(--font-ui);font-size:.75rem;color:var(--text-faint);font-style:italic;margin-top:2rem;padding-top:1rem;border-top:1px solid var(--border);max-width:var(--max-prose)}
+.mob-nav-wrap{display:none;background:var(--panel);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none}
+.mob-nav-wrap::-webkit-scrollbar{display:none}
+.mob-nav{display:flex;padding:0 1rem;white-space:nowrap}
+.mob-btn{background:none;border:none;cursor:pointer;padding:.75rem .875rem;font-family:var(--font-ui);font-size:.75rem;color:var(--text-soft);border-bottom:2px solid transparent;position:relative;top:1px;transition:color .15s,border-color .15s;white-space:nowrap}
+.mob-btn.active{color:var(--blue);border-bottom-color:var(--blue);font-weight:500}
+@media(max-width:768px){
+  .layout{grid-template-columns:1fr;grid-template-rows:auto auto 1fr}
+  .site-header{grid-column:1;padding:1.5rem;flex-direction:column;align-items:flex-start;gap:.75rem}
+  .header-meta{text-align:left}
+  .sidebar{display:none}
+  .mob-nav-wrap{display:block}
+  .content{height:auto;padding:1.75rem 1.25rem;overflow-y:visible}
+  .ba-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<header class="site-header">
+  <div>
+    <p class="header-name">Dr Pulkit Mandal</p>
+    <p class="header-creds">MD &nbsp;&middot;&nbsp; MSc Sports &amp; Exercise Medicine, Manchester Metropolitan University &nbsp;&middot;&nbsp; GMC Recognised</p>
+  </div>
+  <div class="header-meta">
+    <p class="header-meta-label">Portfolio</p>
+    <p class="header-meta-value">Medical Writing &nbsp;&middot;&nbsp; Medical Communications</p>
+  </div>
+</header>
+
+<div class="mob-nav-wrap">
+  <div class="mob-nav">
+    <button class="mob-btn active" onclick="go(1)">Symposium Brief</button>
+    <button class="mob-btn" onclick="go(2)">Advisory Board</button>
+    <button class="mob-btn" onclick="go(3)">Training Module</button>
+    <button class="mob-btn" onclick="go(4)">Website Copy</button>
+    <button class="mob-btn" onclick="go(5)">App Microcopy</button>
+    <button class="mob-btn" onclick="go(6)">New Business</button>
+    <button class="mob-btn" onclick="go(7)">Junior Feedback</button>
+    <button class="mob-btn" onclick="go(8)">Disease Brief</button>
+  </div>
+</div>
+
+<nav class="sidebar">
+  <span class="sb-sec">Congress</span>
+  <button class="nav-item active" onclick="go(1)">
+    <span class="ni-num">01</span><span class="ni-title">Symposium Chair Briefing</span><span class="ni-tag">Congress activities</span>
+  </button>
+  <span class="sb-sec">Medical Affairs</span>
+  <button class="nav-item" onclick="go(2)">
+    <span class="ni-num">02</span><span class="ni-title">Advisory Board Discussion Guide</span><span class="ni-tag">Advisory boards</span>
+  </button>
+  <button class="nav-item" onclick="go(3)">
+    <span class="ni-num">03</span><span class="ni-title">Training Module Narrative</span><span class="ni-tag">Training materials</span>
+  </button>
+  <span class="sb-sec">Digital &amp; Patient</span>
+  <button class="nav-item" onclick="go(4)">
+    <span class="ni-num">04</span><span class="ni-title">Website Copy &mdash; HCP Landing Page</span><span class="ni-tag">Websites</span>
+  </button>
+  <button class="nav-item" onclick="go(5)">
+    <span class="ni-num">05</span><span class="ni-title">Digital App Microcopy</span><span class="ni-tag">Digital apps</span>
+  </button>
+  <span class="sb-sec">Strategic &amp; Leadership</span>
+  <button class="nav-item" onclick="go(6)">
+    <span class="ni-num">06</span><span class="ni-title">New Business Proposal</span><span class="ni-tag">Pitch writing</span>
+  </button>
+  <button class="nav-item" onclick="go(7)">
+    <span class="ni-num">07</span><span class="ni-title">Junior Writer Feedback</span><span class="ni-tag">Team management</span>
+  </button>
+  <button class="nav-item" onclick="go(8)">
+    <span class="ni-num">08</span><span class="ni-title">Disease Area Backgrounder</span><span class="ni-tag">Account foundation</span>
+  </button>
+  <div class="sb-footer">
+    <a href="mailto:ubipulkit@gmail.com">ubipulkit@gmail.com</a>
+    <a href="https://www.linkedin.com/in/dr-pulkit-mandal-b4a585284/" target="_blank" rel="noopener">LinkedIn</a>
+    <a href="#" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<main class="content">
+
+<article id="p1" class="panel active">
+  <div class="doc-eyebrow"><span class="doc-tag t-congress">Congress</span><span class="doc-format">Chair Briefing Document &middot; KOL / Session Chair</span></div>
+  <h1 class="doc-title">ARVC in the Athlete: Bridging Genetics, Risk, and Return-to-Play Decisions</h1>
+  <p class="doc-deck">Satellite symposium chair briefing prepared for the European Society of Cardiology Annual Congress. Covers session structure, facilitation prompts, and compliance housekeeping.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">Chair briefing document</span></div>
+    <div class="mi"><span class="mi-label">Session length</span><span class="mi-value">90 minutes</span></div>
+    <div class="mi"><span class="mi-label">Audience</span><span class="mi-value">Named KOL chair, ESC satellite</span></div>
+    <div class="mi"><span class="mi-label">Therapy area</span><span class="mi-value">ARVC / Inherited cardiac conditions</span></div>
+  </div>
+  <div class="prose">
+    <h3>A note before you read further</h3>
+    <p>This document is longer than it needs to be &mdash; apologies for that. The session itself is well-structured and you&rsquo;ll find it runs itself once you&rsquo;re in the room. What follows is mostly context and facilitation prompts. Skim what you know, read carefully the bits on compliance housekeeping at the end.</p>
+    <h3>About the session</h3>
+    <p>The symposium runs 90 minutes and covers three interconnected problems in ARVC: diagnosing it in athletes who look deceptively healthy, making sense of genotype-specific risk, and navigating the return-to-play conversation &mdash; which is, let&rsquo;s be honest, where the real clinical difficulty lives.</p>
+    <p>The structure moves from pathophysiology toward practice deliberately. Speaker 1 sets the diagnostic scene, Speaker 2 complicates it with genotype data, and the panel discussion is where delegates actually engage. Most of the value will come from the last 30 minutes if you manage it well.</p>
+    <p>Expected in the room: around 150&ndash;200 delegates. Predominantly cardiologists and ICC specialists, with a reasonable number of registrars and sports medicine colleagues. Worth pitching explanations of specialist electrophysiology concepts slightly lower than you might at a pure EP meeting &mdash; you&rsquo;ll lose people otherwise.</p>
+    <h3>Presentation 1 (20 min) &mdash; Diagnosing ARVC in the high-performance athlete</h3>
+    <p>The core tension here is one most of the audience will recognise: athlete&rsquo;s heart produces changes that look, on paper, uncomfortably like early ARVC. Dilated right ventricle, repolarisation changes in the right precordial leads, increased vagal tone. The speaker will walk through where CMR has changed the picture &mdash; and it really has, particularly with T1 mapping &mdash; and why the 2010 Task Force Criteria require clinical modification when you&rsquo;re sitting opposite someone who&rsquo;s been training 20 hours a week for a decade.</p>
+    <p>One thing to flag: the speaker tends to run slightly long on the imaging section. If you&rsquo;re watching the clock, a gentle hand gesture around the 15-minute mark usually does it.</p>
+    <p><em>Suggested facilitation prompt after Q&amp;A:</em> &ldquo;You&rsquo;ve laid out the diagnostic challenge really clearly. If you could only run one investigation &mdash; one &mdash; when you&rsquo;re genuinely uncertain, what is it and why?&rdquo; This tends to generate good disagreement between the panel members and sets up slot 2 well.</p>
+    <h3>Presentation 2 (20 min) &mdash; Not all desmosomal variants are equal</h3>
+    <p>This is the most technically dense presentation of the session. The speaker will cover genotype-specific phenotypic patterns &mdash; the short version being that PKP2 is the dominant genotype in most published cohorts but DSP carriers appear to carry disproportionate arrhythmic risk relative to their structural findings, which matters enormously for risk stratification. There&rsquo;s also emerging data on DSG2 that&rsquo;s worth watching.</p>
+    <p>The slide on risk calculator limitations is important. Current tools were calibrated on proband-heavy registries &mdash; they may systematically underestimate risk in cascade-identified, phenotype-negative relatives who now make up a growing proportion of the clinic population. The speaker will make this point; it&rsquo;s worth drawing out in Q&amp;A because it connects directly to what the panel discussion is about.</p>
+    <p><em>Suggested prompt:</em> &ldquo;Given everything you&rsquo;ve just said about the limitations of existing risk calculators &mdash; how do you actually counsel a 22-year-old with a pathogenic PKP2 variant and a completely normal cardiac MRI? What do you tell them?&rdquo;</p>
+    <h3>Panel discussion (30 min) &mdash; The return-to-play decision</h3>
+    <p>This is where the session earns its place in the programme. RTP in ARVC sits at the intersection of clinical evidence (limited), medicolegal responsibility (significant), and patient autonomy (often inconvenient). Current guidelines are, in many respects, expert consensus dressed up as evidence &mdash; and most of the panellists in the room will know this.</p>
+    <p>Don&rsquo;t smooth over disagreement. If two panellists take different positions on whether a fully informed athlete can make an autonomous choice to continue competing, let that run. The most useful chair intervention is not resolving conflict &mdash; it&rsquo;s sharpening it: &ldquo;So you&rsquo;re saying the clinician&rsquo;s responsibility ends once the patient has been fully informed &mdash; and you&rsquo;re saying it doesn&rsquo;t. Can you each tell me what specific evidence or experience leads you to that position?&rdquo;</p>
+    <p>Three tensions worth surfacing if they don&rsquo;t emerge naturally: the evidence tension; the autonomy tension; and the institutional tension, where a team physician advising an elite athlete operates under pressures that an ICC clinic consultant simply doesn&rsquo;t face.</p>
+    <p>Close the panel by asking each member for one unanswered question in their clinical area. It&rsquo;s a good ending and gives the rapporteur something to work with for the meeting report.</p>
+    <h3>Housekeeping &mdash; please read this bit</h3>
+    <p>Each speaker presents their disclosure slide. Allow 60 seconds. Don&rsquo;t skip it &mdash; the room notices. The session is accredited for 1.5 CPD hours under the GMC framework; announce at the start. This is a non-promotional symposium &mdash; any product-specific questions from the floor should be redirected to the medical information stand. Speaker slides have been through editorial and compliance review and are final.</p>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>Chair briefings are a critical but often invisible congress deliverable. They demonstrate: ability to synthesise a full scientific programme into actionable guidance for a KOL peer; awareness of the promotional/non-promotional boundary; and the register shift required when writing for someone who knows the science as well as you do.</p></div>
+  <p class="footnote">Illustrative sample. Client, agency, and speaker names are placeholders. Content is based on published ARVC literature and is not promotional material.</p>
+</article>
+
+<article id="p2" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-affairs">Medical Affairs</span><span class="doc-format">Advisory Board Discussion Guide &middot; Moderator use only</span></div>
+  <h1 class="doc-title">ARVC Exercise Counselling Advisory Board: Facilitated Discussion Guide</h1>
+  <p class="doc-deck">A moderator&rsquo;s guide for a scientific exchange advisory board. Structured to surface genuine expert disagreement, not manufacture consensus.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">Discussion guide</span></div>
+    <div class="mi"><span class="mi-label">Audience</span><span class="mi-value">KOL panel / moderator</span></div>
+    <div class="mi"><span class="mi-label">Topics</span><span class="mi-value">3 structured discussion areas</span></div>
+  </div>
+  <div class="prose">
+    <h3>What we're trying to achieve today</h3>
+    <p>Three questions. That&rsquo;s it. We&rsquo;re here because published evidence is insufficient to guide clinical practice in three specific areas of ARVC management, and expert opinion &mdash; gathered systematically, attributed appropriately &mdash; is the best available proxy until that evidence exists. The outputs will feed into a planned systematic review and a forthcoming medical education programme.</p>
+    <p>This is not a promotional meeting. Advisors were selected for clinical expertise and intellectual independence. The best outcome for this meeting is a set of honestly captured expert views, including dissenting ones.</p>
+    <h3>Ground rules &mdash; for the chair to deliver</h3>
+    <p>Keep this informal but cover the substance. The Chatham House Rule applies &mdash; positions can be reported, but not attributed to named individuals without explicit consent. Advisors should flag any potential conflicts at the start of each discussion topic. And the moderator&rsquo;s job is to make sure everyone speaks, not to guide the group toward any particular conclusion. That last point is worth saying out loud &mdash; it tends to free up the quieter advisors.</p>
+    <h3>Discussion A &mdash; The newly diagnosed genotype-positive athlete</h3>
+    <p>Open with this scenario, read verbatim or adapt:</p>
+    <p><em>&ldquo;A 19-year-old plays semi-professional football. Asymptomatic. No symptoms at all. His father was diagnosed with confirmed PKP2 ARVC six months ago after a syncopal episode during a Sunday run. Cascade testing comes back &mdash; the son carries the same variant. His cardiac MRI is completely normal. He&rsquo;s sitting in front of you. What do you say?&rdquo;</em></p>
+    <p>Give the group 30 seconds to think before anyone speaks. The pause matters &mdash; it stops the most confident voice in the room from setting a frame that everyone else anchors to.</p>
+    <ul>
+      <li>Do you give a specific exercise threshold &mdash; hours per week, intensity level &mdash; or is that too precise for the evidence base you&rsquo;re working from?</li>
+      <li>Does it make a difference that he&rsquo;s semi-professional rather than recreational? Ethically, clinically, practically?</li>
+      <li>Do you bring in anyone else &mdash; sports psychology, a sports medicine colleague? Or is this a conversation between you and the patient?</li>
+    </ul>
+    <p>The insight we&rsquo;re trying to capture: is there genuine consensus here, or are there meaningfully different schools of thought? If different advisors are giving different advice, that&rsquo;s not a problem &mdash; it&rsquo;s the most important thing we can document.</p>
+    <h3>Discussion B &mdash; Should exercise counselling be genotype-specific?</h3>
+    <p><em>&ldquo;We&rsquo;ve just heard emerging data suggesting DSP carriers may face a very different risk profile to PKP2 carriers, even when structural findings look similar. Does that change anything in how you counsel patients today &mdash; or are you waiting for more evidence before you stratify by gene?&rdquo;</em></p>
+    <p>Worth listening for: advisors who are already stratifying informally, even if they wouldn&rsquo;t describe it that way. Sometimes the most useful insight in an advisory board comes from someone saying &ldquo;well I wouldn&rsquo;t formally recommend it but in practice what I tend to do is...&rdquo; Those moments are gold &mdash; make sure the rapporteur captures them.</p>
+    <h3>Discussion C &mdash; The athlete who says no</h3>
+    <p><em>&ldquo;Shared decision-making is the framework we all use. But what happens at the edge of it? A fully informed adult athlete &mdash; you&rsquo;ve had three clinic appointments, they understand the risks, they&rsquo;ve read everything &mdash; tells you they intend to continue competing against your advice. What is your obligation at that point?&rdquo;</em></p>
+    <p>If the conversation stays abstract, bring it back to the concrete: &ldquo;Has anyone in the room actually faced this situation? What happened?&rdquo;</p>
+    <p>Close the full session by asking each advisor: what&rsquo;s the single question, in your area, that most needs answering? Thirty seconds each, no debate.</p>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>Discussion guides are deceptively difficult to write well. A bad one predetermines its conclusions. A good one creates the conditions for genuine expert disagreement while capturing insights useful to the client. The opening clinical vignette is a deliberate technique &mdash; it grounds abstract discussion in a scenario every panellist has actually encountered.</p></div>
+</article>
+
+<article id="p3" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-affairs">Medical Affairs</span><span class="doc-format">Training Module &mdash; Slide Narrative &middot; Cardiology registrars</span></div>
+  <h1 class="doc-title">Module 3: ARVC &mdash; Recognising the Red Flags</h1>
+  <p class="doc-deck">Facilitator notes for a 40-minute training module on ARVC. Written to be read alongside slides, not instead of them &mdash; with interactive prompts built in throughout.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">Slide facilitator narrative</span></div>
+    <div class="mi"><span class="mi-label">Duration</span><span class="mi-value">~40 minutes</span></div>
+    <div class="mi"><span class="mi-label">Series</span><span class="mi-value">ICC Foundation Training, Module 3 of 6</span></div>
+  </div>
+  <div class="prose">
+    <h3>Slide 1</h3>
+    <p>Welcome, and thanks for making time for this. I know training afternoons compete with approximately everything else in a registrar&rsquo;s week, so I&rsquo;ll try to make sure this one earns its place.</p>
+    <p>Module 3 is on ARVC. By the end of the next 40 minutes or so, the aim is that you&rsquo;ll be able to explain why ARVC is dangerous in a way that&rsquo;s useful to a patient &mdash; not just a textbook definition. You&rsquo;ll be able to apply the Task Force Criteria to a clinical scenario, understand roughly what you&rsquo;re looking for on a cardiac MRI report, and know what to do when a patient&rsquo;s family member walks into your clinic having just heard their sibling has been diagnosed. That last one comes up more often than you&rsquo;d expect, and it&rsquo;s the scenario most trainees feel least prepared for.</p>
+    <h3>Slide 2 &mdash; Why ARVC matters more than its prevalence suggests</h3>
+    <p>It affects somewhere between 1 in 1,000 and 1 in 5,000 people. That sounds rare. And it is rare, in the sense that you won&rsquo;t see it every day. But ARVC punches well above its weight in terms of clinical consequence &mdash; it&rsquo;s one of the leading causes of sudden cardiac death in young people and athletes, and a significant proportion of those deaths occur in people with no prior diagnosis, no prior symptoms, sometimes not even a positive family history.</p>
+    <p>One more thing before the pathophysiology: ARVC is fundamentally an electrical disease. It produces structural changes, yes &mdash; but the structural changes are downstream of the electrical problem, not the cause of it. Keep that framing in mind because it changes how you think about monitoring and risk.</p>
+    <h3>Slide 3 &mdash; The disease of the desmosome</h3>
+    <p>This is the bit people find easiest to remember, so let&rsquo;s make sure it sticks.</p>
+    <p>Desmosomes are the junctions between cardiac muscle cells. Think of them as the molecular rivets holding the myocardium together. When they&rsquo;re mutated &mdash; most commonly in the PKP2 gene, which encodes a protein called Plakophilin-2 &mdash; those rivets start to fail under mechanical stress. Cardiomyocytes detach, die, and are replaced by fibrofatty tissue. That fibrofatty tissue conducts electricity abnormally. And abnormal conduction creates the substrate for re-entrant ventricular arrhythmias.</p>
+    <p>I want to ask you something before we move on, and I want you to actually think about it rather than Google it: <em>why does vigorous exercise make this worse?</em></p>
+    <p>Give them 30 seconds. The answer you&rsquo;re drawing out: mechanical stress during exercise accelerates desmosomal disruption. More stress, more myocyte loss, faster progression. Which is why exercise restriction is one of the central pillars of management.</p>
+    <h3>Slide 4 &mdash; The Task Force Criteria</h3>
+    <p>The 2010 Revised Task Force Criteria are how we diagnose ARVC. There are five domains: structural and functional RV abnormalities on imaging, myocardial tissue characterisation, repolarisation abnormalities on ECG, arrhythmia features, and family/genetic history. A definite diagnosis requires two major criteria, one major plus two minor, or four minor criteria from different domains.</p>
+    <p>In practice it&rsquo;s harder than it looks &mdash; partly because the criteria weren&rsquo;t designed with athletes in mind. An endurance athlete&rsquo;s right ventricle is bigger. Their ECG looks different. Don&rsquo;t try to apply Task Force Criteria to an athlete in a vacuum. It&rsquo;s one of the more reliable ways to get the wrong answer.</p>
+    <h3>Slide 5 &mdash; Cardiac MRI: what to ask for, and what to do with the answer</h3>
+    <p>When you&rsquo;re referring a patient for CMR in suspected ARVC, your referral request matters more than you might think. A standard cardiac MRI won&rsquo;t give you what you need. You specifically need: late gadolinium enhancement sequences, and native T1 mapping. If you don&rsquo;t ask for them, you may not get them.</p>
+    <p>Here&rsquo;s the thing though &mdash; and this trips people up: a normal CMR does not exclude early ARVC in a genotype-positive individual. ARVC is progressive. At the very early stage, imaging can be completely normal and the disease is still there, just not yet visible. Serial surveillance is not optional in this population.</p>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>Training module narration is one of the hardest formats in MedComms to write well &mdash; technically accurate, but genuinely pedagogically useful. The deliberate pause and interactive prompt built into slide 3 show awareness that good training writing builds in active learning moments, not just information delivery.</p></div>
+</article>
+
+<article id="p4" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-digital">Digital</span><span class="doc-format">Website Copy &mdash; HCP Landing Page &middot; Cardiologists, GPs, sports medicine</span></div>
+  <h1 class="doc-title">ARVC: Clinical Resources for Healthcare Professionals</h1>
+  <p class="doc-deck">HCP-facing website copy structured around the user journey &mdash; from diagnosis through cascade screening &mdash; with clear calls to action and compliant language throughout.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">HCP website &mdash; landing page</span></div>
+    <div class="mi"><span class="mi-label">Audience</span><span class="mi-value">Cardiologists, GPs, sports medicine physicians</span></div>
+    <div class="mi"><span class="mi-label">Sections</span><span class="mi-value">Hero / Diagnosis / Cascade Screening</span></div>
+  </div>
+  <div class="prose">
+    <h3>Hero section</h3>
+    <p><strong>What is this site?</strong> It&rsquo;s a resource hub &mdash; not comprehensive, not a substitute for clinical guidelines, but hopefully useful. If you&rsquo;re a cardiologist or ICC specialist, most of this will be familiar territory and you can use the links to get to what you need. If you&rsquo;re a GP or sports medicine physician seeing a patient with a new family diagnosis, the cascade screening section is probably where to start.</p>
+    <h3>The clinical picture</h3>
+    <p>ARVC affects an estimated 1 in 1,000 to 1 in 5,000 people. It&rsquo;s inherited &mdash; mostly autosomal dominant &mdash; and in about 60% of clinically affected individuals, a pathogenic variant can be identified, usually in one of the desmosomal genes (PKP2, DSP, DSG2, DSC2). The other 40% are genuinely genetic-negative, or carrying variants we don&rsquo;t yet know how to interpret.</p>
+    <p>It presents along a spectrum. One end: a young athlete collapses during a football match. The other: an asymptomatic 34-year-old whose sister was just diagnosed, who feels completely well and has a normal ECG. The clinical challenge &mdash; and it is a real one &mdash; is that the management decisions at each end of that spectrum are very different, and the evidence base for the quieter end of it is thinner than most guidelines acknowledge.</p>
+    <h3>Diagnosis</h3>
+    <p>The 2010 Revised Task Force Criteria remain the standard. They&rsquo;re well-validated in symptomatic probands. Less so in the cascade-identified, phenotype-negative relatives who now make up a growing proportion of ICC clinic referrals &mdash; worth keeping in mind when the criteria seem to be pulling in one direction and your clinical instinct is pulling in another.</p>
+    <p>A few diagnostic pitfalls worth flagging:</p>
+    <ul>
+      <li>RV dilation in an endurance athlete can reach diagnostic thresholds without representing disease &mdash; context matters</li>
+      <li>Isolated epsilon waves or T-wave inversions in V1&ndash;V3 deserve full evaluation, not dismissal</li>
+      <li>Genetic testing confirms a pathogenic variant in roughly 60% of cases &mdash; a negative result doesn&rsquo;t rule ARVC out</li>
+    </ul>
+    <p><em>[Full diagnostic criteria summary &rarr;]</em></p>
+    <h3>Cascade screening &mdash; starting with the family</h3>
+    <p>A confirmed ARVC diagnosis doesn&rsquo;t end with the proband. All first-degree relatives should be offered cascade genetic testing, preceded by genetic counselling. Not everyone will choose to be tested, and that&rsquo;s a legitimate choice &mdash; the counselling conversation matters.</p>
+    <p>Of those who test positive, a significant proportion will have subclinical cardiac changes already detectable on baseline CMR. A significant proportion will have completely normal imaging. Both groups need long-term follow-up &mdash; the difference is in the surveillance intensity and the conversation about exercise.</p>
+    <p><em>[Download cascade screening referral template &rarr;]</em></p>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>HCP website copy has to be scannable at speed, actionable rather than merely informative, and compliant without being sterile. The call-to-action architecture shown here reflects how medical affairs digital teams think about user journeys &mdash; content in context, not just content in isolation.</p></div>
+</article>
+
+<article id="p5" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-digital">Digital</span><span class="doc-format">App Microcopy &amp; UX Content &middot; Clinical decision support</span></div>
+  <h1 class="doc-title">ARVC Risk Companion &mdash; Screen Content</h1>
+  <p class="doc-deck">Full screen-by-screen content for a fictional clinical decision support app. Every word has a job; the compliance scope-setting on screen 2 is a deliberate structural choice, not a legal afterthought.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">App microcopy</span></div>
+    <div class="mi"><span class="mi-label">Audience</span><span class="mi-value">Cardiologists, ICC specialists</span></div>
+    <div class="mi"><span class="mi-label">Screens</span><span class="mi-value">Onboarding / Input / Result</span></div>
+  </div>
+  <div class="prose"><h3>Onboarding &mdash; Screen 1</h3></div>
+  <div class="app-screen">
+    <p class="app-lbl">Screen 1 of 2 &mdash; Onboarding</p>
+    <h4>For clinicians managing ARVC</h4>
+    <p>This tool helps you apply current risk stratification frameworks to patients with confirmed or suspected ARVC. It doesn&rsquo;t replace clinical judgement &mdash; it structures it. All content is based on published evidence and current guidelines, which means it&rsquo;s only as current as those guidelines are.</p>
+    <span class="app-btn">Let&rsquo;s start</span>
+  </div>
+  <div class="prose"><h3>Onboarding &mdash; Screen 2</h3></div>
+  <div class="app-screen">
+    <p class="app-lbl">Screen 2 of 2 &mdash; Scope</p>
+    <h4>Before we go any further</h4>
+    <p>This tool summarises known arrhythmic risk factors from validated cohort data, provides genotype-specific context for the main desmosomal variants, and generates a structured summary you can save or share with a colleague.</p>
+    <p>It doesn&rsquo;t provide personalised medical advice, it hasn&rsquo;t been validated as a standalone risk calculator, and it definitely doesn&rsquo;t replace a specialist cardiology assessment. If the output surprises you, trust your clinical instincts &mdash; then call an electrophysiologist.</p>
+    <span class="app-btn">Got it &mdash; continue</span>
+  </div>
+  <div class="prose"><h3>Risk input screen</h3></div>
+  <div class="app-screen">
+    <p class="app-lbl">Input screen</p>
+    <h4>Tell us about your patient</h4>
+    <div class="app-field">
+      <span class="app-fl">Confirmed pathogenic variant</span>
+      <span class="app-fs">PKP2 / DSP / DSG2 / DSC2 / JUP / Other / Not yet identified</span>
+      <span class="app-fh">Only include variants identified on clinical-grade testing. Research-grade results are a different conversation.</span>
+    </div>
+    <div class="app-field">
+      <span class="app-fl">Task Force Criteria status</span>
+      <span class="app-fs">Definite / Borderline / No criteria met</span>
+      <span class="app-fh">2010 Revised Task Force Criteria. If uncertain, select Borderline.</span>
+    </div>
+    <div class="app-field">
+      <span class="app-fl">Prior sustained ventricular arrhythmia</span>
+      <span class="app-fs">Yes / No / Unknown</span>
+    </div>
+    <div class="app-field">
+      <span class="app-fl">Family history: SCD in first-degree relative under 45</span>
+      <span class="app-fs">Yes / No / Unknown</span>
+      <span class="app-fh">If unknown, enter Unknown &mdash; don&rsquo;t estimate.</span>
+    </div>
+    <div class="app-field">
+      <span class="app-fl">Current activity level</span>
+      <span class="app-fs">Sedentary / Recreational / Competitive amateur / Elite professional</span>
+      <span class="app-fh">Self-reported &mdash; take as approximate.</span>
+    </div>
+  </div>
+  <div class="prose"><h3>Result screen (high-risk example)</h3></div>
+  <div class="app-result">
+    <strong>Risk profile summary</strong><br><br>
+    Based on what you&rsquo;ve entered, this patient has several recognised risk factors for arrhythmic events in ARVC &mdash; specifically a prior sustained ventricular arrhythmia and a family history of premature SCD, both considered major risk markers in published frameworks.<br><br>
+    This is not a validated risk score. It&rsquo;s a structured summary of risk factor burden. The difference matters. Please discuss with your ICC or electrophysiology colleague before making management decisions.<br><br>
+    <em>Relevant guidance: EAPC 2022 consensus statement on ARVC management.</em>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>App microcopy writing is almost entirely absent from medical writer portfolios &mdash; which makes it an immediate differentiator. The discipline is extreme compression: every word earns its place. The scope-limiting screen 2 is a specific compliance technique that protects both users and developers from overconfident use of the tool.</p></div>
+</article>
+
+<article id="p6" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-pitch">Strategic</span><span class="doc-format">New Business Proposal Extract &middot; Section 3</span></div>
+  <h1 class="doc-title">New Business Proposal Extract: Scientific and Strategic Approach</h1>
+  <p class="doc-deck">An extract from a pitch response to a fictional pharma client brief seeking ARVC medical communications support ahead of a planned regulatory filing.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">New business proposal section</span></div>
+    <div class="mi"><span class="mi-label">Section</span><span class="mi-value">Scientific strategy (extract)</span></div>
+    <div class="mi"><span class="mi-label">Note</span><span class="mi-value">Fictional client brief &mdash; illustrative only</span></div>
+  </div>
+  <div class="prose">
+    <h3>What we understand about this client&rsquo;s situation</h3>
+    <p>The challenge with ARVC isn&rsquo;t awareness. Cardiologists and ICC specialists know what ARVC is. The challenge is that clinical confidence drops sharply between diagnosis and management &mdash; and the KOL community knows this better than anyone. Walk into a room of inherited cardiac conditions specialists and ask them how to counsel a genotype-positive, phenotype-negative 20-year-old about exercise, and you&rsquo;ll get five different answers.</p>
+    <p>A communications programme that ignores this uncertainty won&rsquo;t work. It will be dismissed as marketing dressed up as science, which in this community is a reputation problem that&rsquo;s very hard to recover from. Our proposal starts from that reality.</p>
+    <h3>What we&rsquo;re proposing</h3>
+    <p><strong>Workstream 1 &mdash; Foundation science.</strong> A peer-reviewed supplement establishing the contemporary scientific framework for ARVC diagnosis, risk stratification, and the unresolved questions in exercise counselling. This isn&rsquo;t a promotional exercise. It&rsquo;s a credibility-building exercise. The KOL authors matter as much as the content.</p>
+    <p>Congress symposium at ESC, structured as a genuine scientific debate rather than a data presentation. The most effective educational content in this space is the content that acknowledges disagreement. Delegates leave thinking &mdash; which means they remember what they heard.</p>
+    <p><strong>Workstream 2 &mdash; Cascade screening education.</strong> The patient identification problem for this client is, in large part, a cascade screening problem. The patients who will need treatment exist &mdash; they just haven&rsquo;t been found yet. GP-facing educational content on what to do when a specialist diagnosis lands in a patient&rsquo;s family. A family letter template that ICC clinics can co-brand. Simple, useful, immediately deployable.</p>
+    <p><strong>Workstream 3 &mdash; Digital and continuous medical education.</strong> A modular digital learning series built around clinical scenarios. ARVC has enough clinical complexity and diagnostic ambiguity that scenario-based learning works well. We&rsquo;d propose 6&ndash;8 modules, each around 20 minutes, with a CPD accreditation framework built in from the start.</p>
+    <h3>Why us specifically</h3>
+    <p>We won&rsquo;t list awards here. You can read those elsewhere. What&rsquo;s more relevant is that our senior scientific team includes clinicians who have worked directly in ICC settings, which means we understand the difference between what guidelines say and what actually happens in clinic.</p>
+    <p>The ICC community is not large. Credibility here takes time to build and very little time to lose. We have built it carefully over several years. That&rsquo;s worth more than the creative work.</p>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>Pitch writing is explicitly listed as a role responsibility &mdash; yet almost no portfolio candidates include it. This extract demonstrates: ability to synthesise a client brief into a strategic narrative; awareness that KOLs resist overtly commercial messaging; and the capacity to position scientific credibility as a business argument. These are Technical Lead-level skills.</p></div>
+  <p class="footnote">Extract from a fictional pitch document. No real client data or confidential information has been used.</p>
+</article>
+
+<article id="p7" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-mgmt">Management</span><span class="doc-format">Developmental Feedback &middot; Senior writer to junior writer</span></div>
+  <h1 class="doc-title">Feedback: ARVC Advisory Board Report &mdash; First Draft</h1>
+  <p class="doc-deck">A developmental feedback email from a senior writer reviewing a junior colleague&rsquo;s first draft. Specific, honest, and non-negotiable on accuracy &mdash; while recognising what&rsquo;s genuinely working.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">Written feedback / review note</span></div>
+    <div class="mi"><span class="mi-label">Demonstrates</span><span class="mi-value">Technical Lead judgement and junior mentoring</span></div>
+  </div>
+  <div class="letter">
+    <div class="letter-hd">
+      <p class="lf"><strong>To:</strong> [Junior Writer]</p>
+      <p class="lf"><strong>From:</strong> [Senior Writer, Technical Lead]</p>
+      <p class="lf"><strong>Re:</strong> ARVC Advisory Board Report &mdash; First Draft Review</p>
+    </div>
+    <div class="letter-body">
+      <p>Read it. Good instincts in there, and I&rsquo;ll come back to what&rsquo;s working. But there are a few things that need addressing before this goes anywhere near the client.</p>
+      <h4>The thing that needs fixing first</h4>
+      <p>Page 4, second paragraph, exercise counselling section. You&rsquo;ve written that &ldquo;the panel agreed that competitive exercise should be stopped immediately in all genotype-positive individuals.&rdquo;</p>
+      <p>That&rsquo;s not what was said. What was agreed &mdash; and it&rsquo;s actually a more interesting and more useful output &mdash; is that exercise counselling should be highly individualised, and that competitive sport carries elevated risk in individuals with confirmed phenotypic disease. That&rsquo;s a meaningfully different clinical position, and the distinction matters. A blanket restriction message attributed to a panel of ICC specialists will be read and cited. If it&rsquo;s inaccurate, that&rsquo;s a problem that outlasts this project.</p>
+      <p>Please go back to your notes. Check against the recording if you need to. Revise to reflect what was actually said, including any areas of genuine panel disagreement &mdash; those are often the most valuable parts of an advisory board output, not the parts to smooth over.</p>
+      <h4>Missing disclosures</h4>
+      <p>There&rsquo;s no disclosure section. Every advisory board report needs one &mdash; full competing interests for each panellist, as declared at the meeting. This isn&rsquo;t optional and it&rsquo;s not a style point. Add it before the next version leaves the building.</p>
+      <h4>Three claims that need references</h4>
+      <p>Background section: the prevalence figure in paragraph 1; the genetic detection rate in paragraph 3; and the event rate comparison between exercise-adherent and non-adherent groups in paragraph 5. If you&rsquo;re not sure which papers to use, come and ask me rather than inserting a placeholder. Placeholders have a way of surviving into final documents.</p>
+      <h4>What you&rsquo;ve done well &mdash; this matters too</h4>
+      <p>The lay summary at the end is genuinely good. You&rsquo;ve taken a technically dense discussion and made it readable without dumbing it down. That&rsquo;s harder than it looks and a lot of experienced writers can&rsquo;t do it cleanly. Keep that instinct.</p>
+      <p>The meeting narrative flows logically and it&rsquo;s clear you were paying attention in the room rather than catching up from the audio later. That shows in the quality of the detail.</p>
+      <h4>One broader thing</h4>
+      <p>Advisory board reports have an unusual job. They need to be accurate (the meeting must be faithfully represented), useful (the client needs to be able to act on the outputs), and compliant (disclosures, scope statements, attribution &mdash; all of it). When those three things pull in different directions, accuracy comes first. Always.</p>
+      <p>If a client reads this report and wants it to say something different from what the panel actually said, that&rsquo;s not a writing problem to fix &mdash; it&rsquo;s a conversation for the account director. Come and flag it if that happens rather than trying to solve it in the document.</p>
+      <p>Good draft overall. Get the corrections back to me by Thursday and we can turn this around for the client by end of week.</p>
+    </div>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>This piece does something no other portfolio sample can: it shows judgement, not just writing skill. The JD calls explicitly for managing and mentoring junior writers. Feedback that is specific, kind, and non-negotiable on accuracy signals that this writer understands the ethical responsibilities of a Technical Lead, not just the editorial ones.</p></div>
+</article>
+
+<article id="p8" class="panel">
+  <div class="doc-eyebrow"><span class="doc-tag t-affairs">Medical Affairs</span><span class="doc-format">Disease Area Backgrounder &middot; New account team members</span></div>
+  <h1 class="doc-title">ARVC: Background Reading for New Account Team Members</h1>
+  <p class="doc-deck">Internal account onboarding document. Not exhaustive, not a literature review &mdash; just enough to be useful in the first few weeks and to ask sensible questions.</p>
+  <div class="doc-meta">
+    <div class="mi"><span class="mi-label">Format</span><span class="mi-value">Internal backgrounder</span></div>
+    <div class="mi"><span class="mi-label">Distribution</span><span class="mi-value">Internal only &mdash; not for client or external use</span></div>
+    <div class="mi"><span class="mi-label">Reading time</span><span class="mi-value">~12 minutes</span></div>
+  </div>
+  <div class="prose">
+    <h3>Start here</h3>
+    <p>If you&rsquo;ve just joined this account, read this before anything else. It won&rsquo;t make you an expert &mdash; that takes a few months of immersion in the literature and a couple of advisory boards &mdash; but it&rsquo;ll give you enough context to be useful in the first few weeks and to ask sensible questions.</p>
+    <h3>What is ARVC?</h3>
+    <p>Arrhythmogenic right ventricular cardiomyopathy is an inherited cardiac condition. The myocardium &mdash; specifically the right ventricular muscle &mdash; undergoes progressive replacement by fibrofatty tissue, which disrupts normal electrical conduction and creates a substrate for dangerous ventricular arrhythmias. In simple terms: the heart muscle is slowly replaced by tissue that conducts electricity abnormally, and that abnormal conduction can trigger life-threatening heart rhythms.</p>
+    <p>Prevalence is estimated at 1 in 1,000 to 1 in 5,000, though this probably underestimates true prevalence given how often the condition goes undiagnosed until a cardiac event. It&rsquo;s more commonly diagnosed in males, and typically presents in the second to fourth decade of life &mdash; which means it disproportionately affects people in the peak years of athletic performance and early career.</p>
+    <p>Around 60% of clinically affected individuals carry an identifiable pathogenic variant &mdash; usually in one of the genes encoding desmosomal proteins (PKP2, DSP, DSG2, DSC2, JUP). PKP2 is by far the most common, accounting for 45&ndash;73% of genotype-positive cases depending on the cohort. The other 40% either carry variants we can&rsquo;t yet classify or have non-desmosomal causes &mdash; this is an active area of genetic research.</p>
+    <h3>The diagnostic challenge</h3>
+    <p>Diagnosis relies on the 2010 Revised Task Force Criteria. It works reasonably well in symptomatic probands. It works less well in two groups that are increasingly common in clinical practice: athletes, whose physiological adaptations mimic early ARVC findings; and genotype-positive relatives identified through cascade screening who may have normal imaging and no symptoms.</p>
+    <p>A healthy 25-year-old who tests positive through cascade screening after their parent&rsquo;s diagnosis is in clinical no-man&rsquo;s-land. They don&rsquo;t meet diagnostic criteria. But they&rsquo;re not without risk. And nobody is entirely sure how to counsel them, how intensively to surveil them, or &mdash; most contentiously &mdash; what to tell them about exercise.</p>
+    <h3>Treatment: what exists and what doesn&rsquo;t</h3>
+    <p>ICDs are the only intervention that has demonstrably reduced mortality. Exercise restriction &mdash; the evidence is observational, but it&rsquo;s consistent: high-intensity exercise accelerates disease progression. The clinical translation is messy though &mdash; guidelines say individualised counselling, which in practice means different clinicians giving meaningfully different advice to similar patients. This is a genuine unresolved area, not a settled question.</p>
+    <p>Pharmacological management &mdash; beta-blockers for symptoms and rate control, antiarrhythmics for refractory arrhythmia burden. Important: these manage risk, they do not modify disease. There is currently no disease-modifying therapy for ARVC. This is the primary unmet need that therapeutic development in this space is targeting. It&rsquo;s also, not coincidentally, why this account exists.</p>
+    <h3>The KOL landscape</h3>
+    <p>Small and interconnected. Worth mapping early and treating carefully &mdash; reputations in inherited cardiology travel fast. Key centres include the Johns Hopkins ARVC Programme, the Zurich ARVC Programme, and multiple UK ICC centres. If you&rsquo;re going to an advisory board in this space, look up who&rsquo;s in the room before you arrive. You&rsquo;ll almost certainly encounter the same 20&ndash;30 experts repeatedly. Knowing who agrees with whom &mdash; and who definitely doesn&rsquo;t &mdash; is more useful than it sounds.</p>
+    <h3>What this means for MedComms</h3>
+    <p>The unmet need in ARVC is genuine and well-recognised within the clinical community. Exercise counselling lacks any kind of evidence-based framework, cascade screening uptake is worse than it should be, risk stratification for phenotype-negative relatives is genuinely unsolved, and the absence of disease-modifying therapy makes pre-launch disease awareness programmes both appropriate and necessary.</p>
+    <p>The clinical community here is sophisticated and sceptical of anything that looks like marketing. Educational content that acknowledges uncertainty and engages honestly with evidence gaps will land. Content that doesn&rsquo;t will be noticed &mdash; and not in a good way.</p>
+    <p>That&rsquo;s the overview. Questions, come and find me or drop them in the account channel.</p>
+  </div>
+  <div class="rationale"><p class="rationale-lbl">Why this sample</p><p>Account backgrounders are the invisible infrastructure of medical communications. This piece signals breadth: clinical knowledge, strategic framing, account awareness, and ability to write for an internal professional audience &mdash; a register distinct from both client-facing and HCP-facing content.</p></div>
+  <p class="footnote">Internal document &mdash; not for external distribution. Clinical facts are based on published literature. All client names and account details are fictional.</p>
+</article>
+
+</main>
+</div>
+<script>
+function go(n){
+  document.querySelectorAll('.nav-item').forEach(function(b,i){b.classList.toggle('active',i===n-1)});
+  document.querySelectorAll('.mob-btn').forEach(function(b,i){b.classList.toggle('active',i===n-1)});
+  document.querySelectorAll('.panel').forEach(function(p,i){p.classList.toggle('active',i===n-1)});
+  var c=document.querySelector('.content');
+  if(c)c.scrollTop=0;else window.scrollTo(0,0);
+}
+</script>
+</body>
+</html>
